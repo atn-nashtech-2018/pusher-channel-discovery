@@ -1,6 +1,8 @@
 ## Service discovery with Pusher channels
 
-Using pusher channels for both service registry and discovery.
+Using pusher channels for both service registry and discovery. This repo
+contains an implementation of an HTTP server that uses Pusher channels to notify
+others of it's state.
 
 ## Pre-requisites
 
