@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 	"syscall"
 
 	"github.com/adelowo/pusher-channel-discovery/registry"
+	"github.com/adelowo/pusher-channel-discovery/transport/web"
 	"github.com/google/uuid"
 	pusher "github.com/pusher/pusher-http-go"
 )
@@ -47,6 +49,11 @@ func main() {
 		log.Fatalf("could not fetch public IP address... %v", err)
 	}
 
+	hostName, err := os.Hostname()
+	if err != nil {
+		log.Fatalf("could not fetch host name... %v", err)
+	}
+
 	svc := registry.Service{
 		Prefix:  "/v2",
 		Address: ip,
@@ -68,7 +75,22 @@ func main() {
 		log.Fatalf("Could not register service... %v", err)
 	}
 
-	<-shutDownChan
+	var errs = make(chan error, 3)
+
+	go func() {
+		srv := &web.Server{
+			HostName: hostName,
+			Port:     *port,
+		}
+
+		errs <- web.Start(srv)
+	}()
+
+	go func() {
+		<-shutDownChan
+		errs <- errors.New("Application is shutting down")
+	}()
+
+	fmt.Println(<-errs)
 	reg.DeRegister(svc)
-	fmt.Println("Application is shutting down")
 }

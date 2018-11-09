@@ -18,9 +18,20 @@ func Start(srv *Server) error {
 
 	mux := chi.NewMux()
 
+	mux.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("Host-Server", srv.HostName)
+
+			next.ServeHTTP(w, r)
+		})
+	})
+
 	mux.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
+
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`Health check passes`))
+		w.Write([]byte(`{ 'status' : 'OK' }`))
 	})
 
 	mux.Post("/generate", func(w http.ResponseWriter, r *http.Request) {
