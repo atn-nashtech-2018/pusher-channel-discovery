@@ -23,6 +23,8 @@ func main() {
 
 	port := flag.Int64("http.port", 3000, "Port to run HTTP server at")
 
+	flag.Parse()
+
 	appID := os.Getenv("PUSHER_APP_ID")
 	appKey := os.Getenv("PUSHER_APP_KEY")
 	appSecret := os.Getenv("PUSHER_APP_SECRET")
