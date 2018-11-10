@@ -13,8 +13,8 @@ import (
 type Event string
 
 const (
-	Register Event = "REGISTER"
-	Exit           = "EXIT"
+	Register Event = "register"
+	Exit           = "exit"
 )
 
 func (e Event) String() string {
@@ -29,7 +29,7 @@ func (e Event) String() string {
 }
 
 const (
-	Channel = "mapped"
+	Channel = "mapped-discovery"
 )
 
 type Registrar struct {
