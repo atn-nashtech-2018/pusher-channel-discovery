@@ -1,7 +1,7 @@
 FROM golang:1.11 as build-env
 
-WORKDIR /go/src/github.com/adelowo/pusher-channel-discovery
-ADD . /go/src/github.com/adelowo/pusher-channel-discovery
+WORKDIR /go/src/github.com/adelowo/pusher-channel-discovery-go
+ADD . /go/src/github.com/adelowo/pusher-channel-discovery-go
 
 ENV GO111MODULE=on
 

@@ -10,8 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/adelowo/pusher-channel-discovery/registry"
-	"github.com/adelowo/pusher-channel-discovery/transport/web"
+	"github.com/adelowo/pusher-channel-discovery-go/registry"
+	"github.com/adelowo/pusher-channel-discovery-go/transport/web"
 	"github.com/google/uuid"
 	pusher "github.com/pusher/pusher-http-go"
 )
