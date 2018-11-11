@@ -21,7 +21,7 @@ func Start(srv *Server) error {
 	mux.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			w.Header().Set("Host-Server", srv.HostName)
+			w.Header().Set("X-Server", srv.HostName)
 
 			next.ServeHTTP(w, r)
 		})
