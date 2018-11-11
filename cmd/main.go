@@ -57,11 +57,12 @@ func main() {
 	}
 
 	svc := registry.Service{
-		Prefix:  "/v2",
-		Address: ip,
-		Port:    *port,
-		Name:    "Url shortner",
-		ID:      uuid.New(),
+		Prefix:   "/v2",
+		Address:  ip,
+		Port:     *port,
+		Name:     "Url shortner",
+		ID:       uuid.New(),
+		Hostname: hostName,
 		HealthCheck: struct {
 			URL       string `json:"url"`
 			Method    string `json:"method"`

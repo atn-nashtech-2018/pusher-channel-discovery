@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/google/uuid"
 	pusher "github.com/pusher/pusher-http-go"
@@ -45,8 +46,9 @@ type Service struct {
 
 	Port int64 `json:"port"`
 
-	Name string    `json:"name"`
-	ID   uuid.UUID `json:"id"`
+	Name     string    `json:"name"`
+	ID       uuid.UUID `json:"id"`
+	Hostname string    `json:"hostName"`
 
 	HealthCheck struct {
 		URL       string `json:"url"`
@@ -67,6 +69,10 @@ func (s Service) Validate() error {
 	_, err := url.Parse(s.HealthCheck.URL)
 	if err != nil {
 		return err
+	}
+
+	if len(strings.TrimSpace(s.Hostname)) == 0 {
+		return errors.New("please provide the hostname of this service")
 	}
 
 	switch s.HealthCheck.Method {
