@@ -5,14 +5,12 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/adelowo/pusher-channel-discovery-go/registry"
 	"github.com/adelowo/pusher-channel-discovery-go/transport/web"
-	"github.com/google/uuid"
 	pusher "github.com/pusher/pusher-http-go"
 )
 
@@ -21,7 +19,7 @@ func main() {
 	shutDownChan := make(chan os.Signal)
 	signal.Notify(shutDownChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
-	port := flag.Int64("http.port", 3000, "Port to run HTTP server at")
+	port := flag.Uint("http.port", 3000, "Port to run HTTP server at")
 
 	flag.Parse()
 
@@ -57,21 +55,9 @@ func main() {
 	}
 
 	svc := registry.Service{
-		Prefix:   "/v2",
-		Address:  ip,
-		Port:     *port,
-		Name:     "Url shortner",
-		ID:       uuid.New(),
-		Hostname: hostName,
-		HealthCheck: struct {
-			URL       string `json:"url"`
-			Method    string `json:"method"`
-			TLSVerify bool   `json:"tlsVerify"`
-		}{
-			URL:       fmt.Sprintf("http://%s/health", ip.String()),
-			Method:    http.MethodGet,
-			TLSVerify: false,
-		},
+		Prefix:  "/v2",
+		Address: ip,
+		Port:    *port,
 	}
 
 	if err := reg.Register(svc); err != nil {

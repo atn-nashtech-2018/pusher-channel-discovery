@@ -11,7 +11,7 @@ import (
 
 type Server struct {
 	HostName string
-	Port     int64
+	Port     uint
 }
 
 func Start(srv *Server) error {

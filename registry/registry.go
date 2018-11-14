@@ -3,11 +3,7 @@ package registry
 import (
 	"errors"
 	"net"
-	"net/http"
-	"net/url"
-	"strings"
 
-	"github.com/google/uuid"
 	pusher "github.com/pusher/pusher-http-go"
 )
 
@@ -44,17 +40,7 @@ type Service struct {
 	// Public IP of the host running this service
 	Address net.IP `json:"address"`
 
-	Port int64 `json:"port"`
-
-	Name     string    `json:"name"`
-	ID       uuid.UUID `json:"id"`
-	Hostname string    `json:"hostName"`
-
-	HealthCheck struct {
-		URL       string `json:"url"`
-		Method    string `json:"method"`
-		TLSVerify bool   `json:"tlsVerify"`
-	} `json:"healthCheck"`
+	Port uint `json:"port"`
 }
 
 func (s Service) Validate() error {
@@ -66,21 +52,7 @@ func (s Service) Validate() error {
 		return errors.New("invalid HTTP port")
 	}
 
-	_, err := url.Parse(s.HealthCheck.URL)
-	if err != nil {
-		return err
-	}
-
-	if len(strings.TrimSpace(s.Hostname)) == 0 {
-		return errors.New("please provide the hostname of this service")
-	}
-
-	switch s.HealthCheck.Method {
-	case http.MethodGet:
-		return nil
-	default:
-		return errors.New("Only GET is supported for Health check")
-	}
+	return nil
 }
 
 func New(client *pusher.Client) *Registrar {
