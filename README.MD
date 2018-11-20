@@ -1,12 +1,14 @@
 ## Service discovery with Pusher channels
 
 Using pusher channels for both service registry and discovery. This repo
-contains an implementation of an HTTP server ( Golang and NodeJS implementations) that uses Pusher channels to notify
-others of it's state.
+contains an implementation of an HTTP server ( Golang and NodeJS implementations) 
+that uses Pusher channels to notify others of it's state.
 
 There is also an API gateway implementation in NodeJS that listens to the
 messages published by the aforementioned HTTP servers in other to set up a
 reverse proxy to them.
+
+The tutorial can be found at https://pusher.com/tutorials/service-discovery-microservices
 
 ## Pre-requisites
 
