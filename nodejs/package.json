@@ -6,6 +6,7 @@
   "author": "Lanre Adelowo",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "internal-ip": "^3.0.1",
     "pusher": "^2.1.3",
